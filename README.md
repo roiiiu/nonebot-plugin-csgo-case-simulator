@@ -1,10 +1,15 @@
-# csgo-case-simulator-nonebot
+# CSGO-case-simulator-nonebot
 
-## How to start
+## Preview
+![screenshot](./screenshot/screenshot2.png)
 
-1. generate project using `nb create` .
-2. install plugins using `nb plugin install` .
-3. run your bot using `nb run` .
+## Usage
+* `/open 数量 箱子` 开箱
+* `/cases` 查看全部箱子
+* `/s_skin 皮肤名` 搜索皮肤
+
+## Install
+* `pip install csgo-case-simulator-nonebot`
 
 ## Documentation
 
