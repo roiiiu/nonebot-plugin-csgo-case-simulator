@@ -99,22 +99,3 @@ def img_to_b64(pic: Image.Image) -> str:
     pic.save(buf, format="PNG")
     base64_str = base64.b64encode(buf.getbuffer()).decode()
     return "base64://" + base64_str
-
-
-def resize_image(image_path, new_width, new_height):
-    img = Image.open(image_path)
-    original_width, original_height = img.size
-    aspect_ratio = original_width / original_height
-
-    if new_width / new_height > aspect_ratio:
-        new_width = int(new_height * aspect_ratio)
-    else:
-        new_height = int(new_width / aspect_ratio)
-
-    img = img.resize((new_width, new_height), Image.ANTIALIAS)
-
-    new_img = Image.new("RGB", (new_width, new_height), "black")
-    new_img.paste(img, ((new_width - img.width) //
-                  2, (new_height - img.height) // 2))
-
-    return new_img

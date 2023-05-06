@@ -22,16 +22,12 @@ class Cases:
 
     def refresh_cases(self):
         self.cases = requests.get(self.cases_api).json()
-        return self.cases
 
     def get_case_name_list(self) -> list:
         return [case["name"] for case in self.cases]
 
     def get_random_case(self) -> dict:
         return random.choice(self.cases)
-
-    def get_case_name_list(self) -> list:
-        return [case["name"] for case in self.cases]
 
     def get_case_by_name(self, case_name: str) -> dict:
         raw_name = case_name.replace("武器箱", "")

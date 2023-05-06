@@ -5,8 +5,8 @@
 
 ## Usage
 * `/open 数量 箱子` 开箱
-* `/cases` 查看箱子
-* `/s_search` 搜索皮肤
+* `/cases` 查看全部箱子
+* `/s_skin 皮肤名` 搜索皮肤
 
 ## How to start
 
