@@ -32,23 +32,23 @@ def merge_images(items):
     padding = 200
     info_height = 200
     bg_color = (255, 255, 255)
-    font_color = (255, 255, 255)
+    font_color = (0, 0, 0)
 
-    background_img = Image.open(
-        "src/plugins/csgo-case-simulator/background2.png")
-    background_img = background_img.filter(ImageFilter.GaussianBlur(radius=50))
-    background_img = background_img.resize((width * columns + padding,
-                                            (height + info_height) * rows + padding))
+    # background_img = Image.open(
+    #     "src/plugins/csgo-case-simulator/background2.png")
+    # background_img = background_img.filter(ImageFilter.GaussianBlur(radius=50))
+    # background_img = background_img.resize((width * columns + padding,
+    #                                         (height + info_height) * rows + padding))
 
-    canvas = background_img
-    # Image.new(
-    #     "RGBA",
-    #     (
-    #         width * columns + padding,
-    #         (height + info_height) * rows + padding
-    #     ),
-    #     bg_color
-    # )
+    canvas = Image.new(
+        "RGBA",
+        (
+            width * columns + padding,
+            (height + info_height) * rows + padding
+        ),
+        bg_color
+    )
+
     for i in range(len(items)):
         row = math.ceil((i + 1) / 5)
         canvas.paste(
