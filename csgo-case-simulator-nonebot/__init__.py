@@ -19,14 +19,7 @@ rarities = {
     "非凡": 6,
 }
 
-rarities_reverse = {
-    1: "工业级",
-    2: "军规级",
-    3: "受限",
-    4: "保密",
-    5: "隐秘",
-    6: "非凡",
-}
+rarities_reverse = {value: key for key, value in rarities.items()}
 
 case_opening = on_command("open", priority=5)
 list_cases = on_command("cases", priority=5)
