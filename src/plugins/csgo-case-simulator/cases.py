@@ -6,8 +6,6 @@ class Cases:
     def __init__(self):
         self.cases_api = "https://bymykel.github.io/CSGO-API/api/zh-CN/crates/cases.json"
         self.cases = requests.get(self.cases_api).json()
-        self.cases = [
-            case for case in self.cases if case["type"] == "Case"]
         self.probabilities = {
             "工业级": 0.63435,
             "军规级": 0.16693,
@@ -22,21 +20,12 @@ class Cases:
             "隐秘": 0.00640,
         }
 
-    def get_cases(self):
-        return self.cases
-
     def refresh_cases(self):
         self.cases = requests.get(self.cases_api).json()
         return self.cases
 
     def get_case_name_list(self) -> list:
         return [case["name"] for case in self.cases]
-
-    def get_case_contains(self, case_name: str) -> dict:
-        for case in self.cases:
-            if case["name"] == case_name and len(case["contains"]) > 0:
-                return case["contains"]
-        return None
 
     def get_random_case(self) -> dict:
         return random.choice(self.cases)
