@@ -1,7 +1,7 @@
 import base64
 from io import BytesIO
 import math
-from PIL import Image, ImageFont, ImageDraw
+from PIL import Image, ImageFont, ImageDraw, ImageFilter
 import requests
 
 rarity_color = {
@@ -23,30 +23,75 @@ def merge_images(items):
         img = Image.open(
             BytesIO(requests.get(items[i]["image"]).content))
         image_list.append(img)
+
     width = image_list[0].width
     height = image_list[0].height
     number = len(items)
-    result = Image.new(
-        "RGBA", (width * 5 + 200,
-                 (height * math.ceil(number / 5)
-                  +
-                  (math.ceil(number / 5)) * 200)
-                 + 250), (255, 255, 255)
-    )
-    for i in range(len(items)):
-        result.paste(image_list[i], (width * (i %
-                     5)+100, (height * (i // 5) + (i // 5) * 250) + 50), image_list[i])
+    rows = math.ceil(number / 5)
+    columns = number if number < 5 else 5
+    padding = 200
+    info_height = 200
+    bg_color = (255, 255, 255)
+    font_color = (255, 255, 255)
 
-    draw = ImageDraw.Draw(result)
-    for i in range(len(items)):
-        draw.text((width * (i % 5)+100 + width / 4, height * (i // 5) + (i // 5) *
-                  250 + height + 100), items[i]["name"], font=font, fill=(0, 0, 0))
-        draw.text((width * (i % 5)+100 + width / 4, height * (i // 5) + (i // 5) *
-                  250 + height + 150), items[i]["rarity"], font=font, fill=rarity_color[items[i]["rarity"]])
-        draw.text((width * (i % 5)+100 + width / 4, height * (i // 5) + (i // 5) *
-                  250 + height + 200), f"磨损: {items[i]['wear_rating']}", font=font, fill=(0, 0, 0))
+    background_img = Image.open(
+        "src/plugins/csgo-case-simulator/background2.png")
+    background_img = background_img.filter(ImageFilter.GaussianBlur(radius=50))
+    background_img = background_img.resize((width * columns + padding,
+                                            (height + info_height) * rows + padding))
 
-    return img_to_b64(result)
+    canvas = background_img
+    # Image.new(
+    #     "RGBA",
+    #     (
+    #         width * columns + padding,
+    #         (height + info_height) * rows + padding
+    #     ),
+    #     bg_color
+    # )
+    for i in range(len(items)):
+        row = math.ceil((i + 1) / 5)
+        canvas.paste(
+            image_list[i],
+            (
+                width * (i % 5)+100,
+                (height + info_height) * (row - 1) + 100
+            ),
+            image_list[i]
+        )
+
+    draw = ImageDraw.Draw(canvas)
+    for i in range(len(items)):
+        row = math.ceil((i + 1) / 5)
+        draw.text(
+            (
+                width * (i % 5)+100 + width / 4,
+                100 + height * row + (row - 1) * info_height
+            ),
+            items[i]["name"],
+            font=font,
+            fill=font_color
+        )
+        draw.text(
+            (
+                width * (i % 5)+100 + width / 4,
+                100 + height * row + (row - 1) * info_height + 50
+            ),
+            items[i]["rarity"],
+            font=font,
+            fill=rarity_color[items[i]["rarity"]]
+        )
+        draw.text(
+            (
+                width * (i % 5)+100 + width / 4,
+                100 + height * row + (row - 1) * info_height + 100
+            ),
+            f"磨损: {items[i]['wear_rating']}",
+            font=font,
+            fill=font_color
+        )
+
+    return img_to_b64(canvas)
 
 
 def img_to_b64(pic: Image.Image) -> str:
@@ -54,3 +99,22 @@ def img_to_b64(pic: Image.Image) -> str:
     pic.save(buf, format="PNG")
     base64_str = base64.b64encode(buf.getbuffer()).decode()
     return "base64://" + base64_str
+
+
+def resize_image(image_path, new_width, new_height):
+    img = Image.open(image_path)
+    original_width, original_height = img.size
+    aspect_ratio = original_width / original_height
+
+    if new_width / new_height > aspect_ratio:
+        new_width = int(new_height * aspect_ratio)
+    else:
+        new_height = int(new_width / aspect_ratio)
+
+    img = img.resize((new_width, new_height), Image.ANTIALIAS)
+
+    new_img = Image.new("RGB", (new_width, new_height), "black")
+    new_img.paste(img, ((new_width - img.width) //
+                  2, (new_height - img.height) // 2))
+
+    return new_img
