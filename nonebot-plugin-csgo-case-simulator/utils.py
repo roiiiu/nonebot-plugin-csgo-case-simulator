@@ -26,11 +26,8 @@ class Utils:
         font = ImageFont.truetype(ttf_path, 40)
         image_list = []
 
-        time1 = time.time()
         image_tasks = [self.download_image(item["image"]) for item in items]
         image_list = await asyncio.gather(*image_tasks)
-        time2 = time.time()
-        print("下载图片耗时：", time2 - time1)
 
         width = image_list[0].width
         height = image_list[0].height

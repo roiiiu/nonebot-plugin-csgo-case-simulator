@@ -1,4 +1,4 @@
-# CSGO-case-simulator-nonebot
+# nonebot-plugin-csgo-case-simulator
 
 ## Preview
 ![screenshot](./screenshot/screenshot2.png)
