@@ -1,4 +1,4 @@
-# CSGO-case-simulator-nonebot
+# nonebot-plugin-csgo-case-simulator
 
 ## Preview
 ![screenshot](./screenshot/screenshot2.png)
@@ -9,7 +9,7 @@
 * `/s_skin 皮肤名` 搜索皮肤
 
 ## Install
-* `pip install csgo-case-simulator-nonebot`
+* `pip install nonebot-plugin-csgo-case-simulator`
 
 ## Documentation
 
