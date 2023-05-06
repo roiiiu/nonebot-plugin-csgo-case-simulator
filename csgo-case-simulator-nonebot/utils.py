@@ -1,6 +1,7 @@
 import base64
 from io import BytesIO
 import math
+import os
 from PIL import Image, ImageFont, ImageDraw, ImageFilter
 import requests
 
@@ -32,22 +33,24 @@ def merge_images(items):
     padding = 200
     info_height = 200
     bg_color = (255, 255, 255)
-    font_color = (0, 0, 0)
+    font_color = (255, 255, 255)
 
-    # background_img = Image.open(
-    #     "src/plugins/csgo-case-simulator/background2.png")
-    # background_img = background_img.filter(ImageFilter.GaussianBlur(radius=50))
-    # background_img = background_img.resize((width * columns + padding,
-    #                                         (height + info_height) * rows + padding))
+    path = os.path.dirname(os.path.abspath(__file__))
+    bg_file = os.path.join(path, "background2.png")
+    background_img = Image.open(bg_file)
+    background_img = background_img.filter(ImageFilter.GaussianBlur(radius=50))
+    background_img = background_img.resize((width * columns + padding,
+                                            (height + info_height) * rows + padding))
 
-    canvas = Image.new(
-        "RGBA",
-        (
-            width * columns + padding,
-            (height + info_height) * rows + padding
-        ),
-        bg_color
-    )
+    canvas = background_img
+    # Image.new(
+    #     "RGBA",
+    #     (
+    #         width * columns + padding,
+    #         (height + info_height) * rows + padding
+    #     ),
+    #     bg_color
+    # )
 
     for i in range(len(items)):
         row = math.ceil((i + 1) / 5)
