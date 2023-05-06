@@ -11,6 +11,7 @@ python = "^3.10"
 nonebot2 = "^2.0.0-rc.4"
 nonebot-adapter-onebot = "^2.2.3"
 Pillow = "^9.5.0"
+requests = "^2.30.0"
 
 [tool.poetry.dev-dependencies]
 
