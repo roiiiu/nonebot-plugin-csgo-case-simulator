@@ -1,11 +1,13 @@
 import random
-import requests
+import httpx
 
 
 class Cases:
     def __init__(self):
         self.cases_api = "https://bymykel.github.io/CSGO-API/api/zh-CN/crates/cases.json"
-        self.cases = requests.get(self.cases_api).json()
+
+        self.cases = []
+
         self.probabilities = {
             "工业级": 0.63435,
             "军规级": 0.16693,
@@ -20,8 +22,9 @@ class Cases:
             "隐秘": 0.00640,
         }
 
-    def refresh_cases(self):
-        self.cases = requests.get(self.cases_api).json()
+    async def get_cases_json(self):
+        async with httpx.AsyncClient() as client:
+            return await client.get(self.cases_api)
 
     def get_case_name_list(self) -> list:
         return [case["name"] for case in self.cases]

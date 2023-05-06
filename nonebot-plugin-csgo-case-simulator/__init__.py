@@ -1,14 +1,26 @@
+import asyncio
 from enum import Enum
 import os
+import time
 from nonebot import on_command
 from nonebot.params import CommandArg
 from nonebot.adapters.onebot.v11 import Message, MessageSegment, MessageEvent
+import httpx
 from .cases import Cases
 from .skins import Skins
-from .utils import merge_images
+from .utils import Utils
 
 cases = Cases()
 skins = Skins()
+utils = Utils()
+
+
+async def get_all_json():
+    res = await asyncio.gather(cases.get_cases_json(), skins.get_skins_json())
+    cases.cases = res[0].json()
+    skins.skins = res[1].json()
+
+asyncio.run(get_all_json())
 
 rarities = {
     "工业级": 1,
@@ -65,7 +77,9 @@ async def handle_open_case(event: MessageEvent, args: Message = CommandArg()):
             for item in items:
                 skin = skins.get_skins(item["name"])
                 opened_skins.append(skin)
-            image = merge_images(opened_skins)
+
+            image = await utils.merge_images(opened_skins)
+
             await case_opening.finish(MessageSegment.image(image))
         else:
             await case_opening.finish("箱子不存在")

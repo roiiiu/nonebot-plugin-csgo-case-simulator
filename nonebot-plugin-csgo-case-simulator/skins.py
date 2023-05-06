@@ -1,11 +1,15 @@
 import random
-import requests
+import httpx
 
 
 class Skins:
     def __init__(self):
         self.skins_api = "https://bymykel.github.io/CSGO-API/api/zh-CN/skins.json"
-        self.skins = requests.get(self.skins_api).json()
+        self.skins = []
+
+    async def get_skins_json(self):
+        async with httpx.AsyncClient() as client:
+            return await client.get(self.skins_api)
 
     def get_skins(self, name: str) -> dict:
         # print(name)
