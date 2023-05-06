@@ -9,7 +9,7 @@
 * `/s_skin 皮肤名` 搜索皮肤
 
 ## Install
-* `pip install nonebot-plugin-csgo-case-simulator`
+`pip install nonebot-plugin-csgo-case-simulator`
 
 ## Documentation
 
