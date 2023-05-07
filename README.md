@@ -9,8 +9,8 @@
 * `/s_skin 皮肤名` 搜索皮肤
 
 ## Install
-1. `pip install csgo-case-simulator-nonebot`
-2. add `csgo-case-simulator-nonebot` to`plugins` list in `poetry.toml` 
+1. `pip install nonebot-plugin-csgo-case-simulator`
+2. add `nonebot-plugin-csgo-case-simulator` to`plugins` list in `poetry.toml` 
 
 ## Documentation
 
