@@ -3,9 +3,11 @@ import base64
 from io import BytesIO
 import math
 import os
-import time
 from PIL import Image, ImageFont, ImageDraw, ImageFilter
 import httpx
+
+
+FONT = font_path = os.path.join('..', 'font', '仓耳舒圆体W03.ttf')
 
 
 class Utils:
@@ -22,7 +24,7 @@ class Utils:
         }
 
     async def merge_images(self, items):
-        ttf_path = "仓耳舒圆体W03.ttf"
+        ttf_path = FONT
         font = ImageFont.truetype(ttf_path, 40)
         image_list = []
 
