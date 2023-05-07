@@ -7,7 +7,7 @@ from PIL import Image, ImageFont, ImageDraw, ImageFilter
 import httpx
 
 
-FONT = font_path = os.path.join('..', 'font', '仓耳舒圆体W03.ttf')
+FONT = font_path = os.path.join('font', '仓耳舒圆体W03.ttf')
 
 
 class Utils:
