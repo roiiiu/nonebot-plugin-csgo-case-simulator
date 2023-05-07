@@ -1,11 +1,7 @@
 import asyncio
-from enum import Enum
-import os
-import time
 from nonebot import on_command
 from nonebot.params import CommandArg
 from nonebot.adapters.onebot.v11 import Message, MessageSegment, MessageEvent
-import httpx
 from .cases import Cases
 from .skins import Skins
 from .utils import Utils
@@ -35,7 +31,7 @@ rarities_reverse = {value: key for key, value in rarities.items()}
 
 case_opening = on_command("open", priority=5)
 list_cases = on_command("cases", priority=5)
-radom_case = on_command("random", priority=5)
+# radom_case = on_command("random", priority=5)
 search_skin = on_command("s_skin", priority=5)
 
 
@@ -48,13 +44,13 @@ async def handle_list_cases():
     await list_cases.finish(f"{cases_list_str}")
 
 
-@radom_case.handle()
-async def handle_random_case():
-    case = cases.get_random_case()
-    await radom_case.send(f"正在开启{case['name']}...")
-    item = cases.open_case(case["id"])
-    skin = skins.get_skins(item["id"])
-    await radom_case.finish(get_skink_message(skin))
+# @radom_case.handle()
+# async def handle_random_case():
+#     case = cases.get_random_case()
+#     await radom_case.send(f"正在开启{case['name']}...")
+#     item = cases.open_case(case["id"])
+#     skin = skins.get_skins(item["id"])
+#     await radom_case.finish(get_skink_message(skin))
 
 
 @case_opening.handle()
@@ -71,7 +67,8 @@ async def handle_open_case(event: MessageEvent, args: Message = CommandArg()):
 
         case = cases.get_case_by_name(case_name)
         if case:
-            await case_opening.send(MessageSegment.image(case["image"])+f"正在开启{case['name']}...")
+            img_base64 = await utils.url_to_b64(case["image"])
+            await case_opening.send(MessageSegment.image(img_base64)+f"正在开启{case['name']}...")
             items = cases.open_case_multiple(case["id"], amount)
             opened_skins = []
             for item in items:
@@ -79,7 +76,6 @@ async def handle_open_case(event: MessageEvent, args: Message = CommandArg()):
                 opened_skins.append(skin)
 
             image = await utils.merge_images(opened_skins)
-
             await case_opening.finish(MessageSegment.image(image))
         else:
             await case_opening.finish("箱子不存在")
@@ -94,7 +90,8 @@ async def handle_search_skin(args: Message = CommandArg()):
         if len(found_skin_list) == 0:
             await search_skin.finish("没找到捏")
         for skin in found_skin_list:
-            await search_skin.send(MessageSegment.image(skin["image"])+f"找到饰品{skin['name']}")
+            img_base64 = await utils.url_to_b64(skin["image"])
+            await search_skin.send(MessageSegment.image(img_base64)+f"找到饰品{skin['name']}")
     else:
         await search_skin.finish("请输入皮肤名称")
 

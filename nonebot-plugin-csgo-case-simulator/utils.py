@@ -114,3 +114,9 @@ class Utils:
         pic.save(buf, format="PNG")
         base64_str = base64.b64encode(buf.getbuffer()).decode()
         return "base64://" + base64_str
+    
+    async def url_to_b64(self,url:str)->str:
+        async with httpx.AsyncClient() as client:
+            response = await client.get(url)
+            base64_str = base64.b64encode(response.content).decode()
+            return "base64://" + base64_str
