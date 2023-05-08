@@ -15,6 +15,7 @@ class Utils:
     def __init__(self):
         self.client = httpx.Client()
         self.rarity_color = {
+            "消费级": (130, 130, 130),
             "工业级": (96, 152, 217),
             "军规级": (76, 105, 255),
             "受限": (136, 70, 255),
@@ -40,10 +41,10 @@ class Utils:
         padding = 200
         info_height = 200
         bg_color = (255, 255, 255)
-        font_color = (255, 255, 255)
+        font_color = (0, 0, 0)
 
         path = os.path.dirname(os.path.abspath(__file__))
-        bg_file = os.path.join(path, "background2.png")
+        bg_file = os.path.join(path, "background3.jpeg")
         background_img = Image.open(bg_file)
         background_img = background_img.filter(
             ImageFilter.GaussianBlur(radius=50))
@@ -114,8 +115,8 @@ class Utils:
         pic.save(buf, format="PNG")
         base64_str = base64.b64encode(buf.getbuffer()).decode()
         return "base64://" + base64_str
-    
-    async def url_to_b64(self,url:str)->str:
+
+    async def url_to_b64(self, url: str) -> str:
         async with httpx.AsyncClient() as client:
             response = await client.get(url)
             base64_str = base64.b64encode(response.content).decode()
