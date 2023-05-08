@@ -5,6 +5,7 @@
   * 支持纪念包开箱
   * 替换json为离线数据
   * 修复了open不带参数可以开箱的bug
+  * 新的随机算法
 
 ## Preview
 ![screenshot](./screenshot/screenshot.png)
