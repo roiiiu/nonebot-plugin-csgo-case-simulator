@@ -10,51 +10,7 @@ class Crates:
         self.cases = []
         self.souvenirs = []
 
-        self.probabilities = {
-            "工业级": 0.63435,
-            "军规级": 0.16693,
-            "受限": 0.15985,
-            "保密": 0.03205,
-            "隐秘": 0.00640,
-        }
-        self.probabilities2 = {
-            "军规级": 0.80128,
-            "受限": 0.15985,
-            "保密": 0.03205,
-            "隐秘": 0.00640,
-        }
-
-        self.prob_s1 = {
-            "消费级": 0.80537,
-            "工业级": 0.16107,
-            "军规级": 0.03356,
-        }
-        self.prob_s2 = {
-            "工业级": 0.8,
-            "军规级": 0.16107,
-            "受限": 0.03333
-        }
-        self.prob_s3 = {
-            "消费级": 0.8,
-            "工业级": 0.16,
-            "军规级": 0.03333,
-            "受限": 0.00667
-        }
-        self.prob_s4 = {
-            "消费级": 0.79893,
-            "工业级": 0.15979,
-            "军规级": 0.03329,
-            "受限": 0.00666,
-            "保密": 0.00133
-        }
-        self.prob_s5 = {
-            "消费级": 0.79872,
-            "工业级": 0.15974,
-            "军规级": 0.03328,
-            "受限": 0.00666,
-            "保密": 0.00133,
-            "隐秘": 0.00027
-        }
+        self.rarity_list = ["消费级", "工业级", "军规级", "受限", "保密", "隐秘", "特殊"]
 
     async def get_cases_json(self):
         with open(f"{JSON_DIR}/cases.json", 'rb') as f:
@@ -67,10 +23,10 @@ class Crates:
             return json.loads(data)
 
     def get_case_name_list(self) -> list:
-        return [case["name"] for case in self.cases]
+        return [case["name"].replace(' ', '') for case in self.cases]
 
     def get_souvenir_name_list(self) -> list:
-        return [sv["name"] for sv in self.souvenirs]
+        return [sv["name"].replace(' ', '') for sv in self.souvenirs]
 
     def get_random_case(self) -> dict:
         return random.choice(self.cases)
@@ -89,67 +45,60 @@ class Crates:
                 return sv
         return None
 
-    def open_case(self, case: dict) -> dict:
-        hasUncommon = False
-        hasRare = False
-        if random.random() > 0.00256 or not case["contains_rare"]:
-            probability_dic = {}
-            probability_list = []
-            for item in case["contains"]:
-                if item["rarity"] == "工业级":
-                    hasUncommon = True
-                if item["rarity"] == "军规级":
-                    hasRare = True
-            if hasUncommon and hasRare:
-                probability_dic = self.probabilities
-            else:
-                probability_dic = self.probabilities2
-
-            for item in case["contains"]:
-                probability_list.append(
-                    probability_dic[item["rarity"]])
+    def open_case(self, case: dict, probability_list) -> dict:
+        if random.random() > probability_list[-1] or not case["contains_rare"]:
             return random.choices(case["contains"], probability_list)[0]
         else:
             return random.choice(case["contains_rare"])
 
-    def open_souvenir(self, sv: dict) -> dict:
-        has_rarity = {
-            "消费级": False,
-            "工业级": False,
-            "军规级": False,
-            "受限": False,
-            "保密": False,
-            "隐秘": False
-        }
-        for item in sv["contains"]:
-            has_rarity[item["rarity"]] = True
-        probability_dic = {}
-        probability_list = []
-        if has_rarity["消费级"] and has_rarity["工业级"] and has_rarity["军规级"] and has_rarity["受限"] and has_rarity["保密"] and has_rarity["隐秘"]:
-            probability_dic = self.prob_s5
-        elif has_rarity["消费级"] and has_rarity["工业级"] and has_rarity["军规级"] and has_rarity["受限"] and has_rarity["保密"]:
-            probability_dic = self.prob_s4
-        elif has_rarity["消费级"] and has_rarity["工业级"] and has_rarity["军规级"] and has_rarity["受限"]:
-            probability_dic = self.prob_s3
-        elif has_rarity["工业级"] and has_rarity["军规级"] and has_rarity["受限"]:
-            probability_dic = self.prob_s2
-        elif has_rarity["消费级"] and has_rarity["工业级"] and has_rarity["军规级"]:
-            probability_dic = self.prob_s1
-        else:
-            return None
-        for item in sv["contains"]:
-            probability_list.append(
-                probability_dic[item["rarity"]])
+    def open_souvenir(self, sv: dict, probability_list) -> dict:
         return random.choices(sv["contains"], probability_list)[0]
 
     def open_crate_multiple(self, crate: dict, open_crate_multiple: int) -> list:
         items = []
         if (crate["type"] == "Case"):
+            contains_pob_list = self.calculate_prob_list(crate)
             for i in range(open_crate_multiple):
-                items.append(self.open_case(crate))
+                items.append(self.open_case(crate, contains_pob_list))
         elif (crate["type"] == "Souvenir"):
+            contains_pob_list = self.calculate_prob_list(crate)
             for i in range(open_crate_multiple):
-                items.append(self.open_souvenir(crate))
+                items.append(self.open_souvenir(crate, contains_pob_list))
         else:
             return None
         return items
+
+    def calculate_prob_list(self, crate: dict):
+        has_rarity = {key: False for key in self.rarity_list}
+        for item in crate["contains"]:
+            has_rarity[item["rarity"]] = True
+        if crate["type"] == "Case":
+            has_rarity["特殊"] = True
+
+        crate_rarity_list = [key for key, value in has_rarity.items() if value]
+        result_list = []
+        has_mil_ind = False
+        if "军规级" in crate_rarity_list and "工业" in crate_rarity_list:
+            has_mil_ind = True
+        x = 1
+        for i in range(len(crate_rarity_list)):
+            if i == 0:
+                result_list.append(x)
+                continue
+            elif has_mil_ind and crate_rarity_list[i] == "工业级":
+                result_list.append(result_list[i-1] * (5 / 24))
+                continue
+            elif crate_rarity_list[i] == "特殊":
+                result_list.append(result_list[i-1] * (2 / 5))
+                continue
+            else:
+                result_list.append(result_list[i-1] / 5)
+
+        result_list = [x / sum(result_list) for x in result_list]
+        print(result_list)
+        contains_prob_list = []
+        for item in crate["contains"]:
+            contains_prob_list.append(
+                result_list[crate_rarity_list.index(item["rarity"])])
+
+        return contains_prob_list

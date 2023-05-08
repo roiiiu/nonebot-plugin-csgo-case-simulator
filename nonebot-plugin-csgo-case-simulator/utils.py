@@ -102,7 +102,7 @@ class Utils:
                 fill=font_color
             )
 
-        return self.img_to_b64(canvas)
+        return self.img_from_PIL(canvas)
 
     async def download_image(self, url):
         async with httpx.AsyncClient() as client:
@@ -110,14 +110,12 @@ class Utils:
             img = Image.open(BytesIO(response.content))
             return img
 
-    def img_to_b64(self, pic: Image.Image) -> str:
+    def img_from_PIL(self, pic: Image.Image) -> str:
         buf = BytesIO()
         pic.save(buf, format="PNG")
-        base64_str = base64.b64encode(buf.getbuffer()).decode()
-        return "base64://" + base64_str
+        return buf.getvalue()
 
-    async def url_to_b64(self, url: str) -> str:
+    async def img_from_url(self, url: str) -> str:
         async with httpx.AsyncClient() as client:
             response = await client.get(url)
-            base64_str = base64.b64encode(response.content).decode()
-            return "base64://" + base64_str
+            return response.content
