@@ -27,6 +27,9 @@
   ```
  然后在`poetry.toml`中的`plugins`列表中添加`nonebot-plugin-csgo-case-simulator`
 
+## Tips
+有任何问题欢迎提Issue🫶
+
 ## Documentation
 
 See [Docs](https://v2.nonebot.dev/)
