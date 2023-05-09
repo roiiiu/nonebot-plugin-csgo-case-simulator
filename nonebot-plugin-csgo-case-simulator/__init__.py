@@ -28,7 +28,6 @@ crate_opening = on_command("open", priority=5)
 list_cases = on_command("cases", priority=5)
 list_souvenir = on_command("svs", priority=5)
 search_skin = on_command("s_skin", priority=5)
-help = on_command("help", priority=5)
 
 
 @list_cases.handle()
@@ -52,17 +51,6 @@ async def handle_list_souvenir():
         svs_list_str += f"{sv}\n"
     await list_souvenir.finish(f"{svs_list_str}")
 
-
-@help.handle()
-async def handle_help():
-    await help.finish(
-        """开箱指令:
-/open [数量] [箱子名] 开箱
-/cases 查看所有箱子
-/svs 查看所有纪念包
-/s_skin [皮肤名] 搜索皮肤
-/help 查看帮助"""
-    )
 
 
 @crate_opening.handle()

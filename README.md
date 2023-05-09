@@ -15,7 +15,6 @@
 * `/cases` 查看全部箱子
 * `/svs` 查看所有纪念包
 * `/s_skin 皮肤名` 搜索皮肤
-* `/help` 帮助
 
 ## Install
   ```shell
