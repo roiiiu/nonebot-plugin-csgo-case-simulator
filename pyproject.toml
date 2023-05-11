@@ -1,6 +1,6 @@
 [tool.poetry]
 name = "nonebot-plugin-csgo-case-simulator"
-version = "0.1.14"
+version = "0.1.15"
 description = "a nonebot based csgo case simulator"
 authors = ["roiiiu <lyt2980999208@gmail.com>"]
 license = "MIT"
@@ -12,7 +12,7 @@ python = "^3.9"
 nonebot2 = "^2.0.0rc4"
 nonebot-adapter-onebot = "^2.2.3"
 Pillow = "^9.5.0"
-httpx = "^0.24.0"
+httpx = "^0.23.0"
 
 
 [build-system]
