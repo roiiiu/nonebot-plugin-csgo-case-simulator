@@ -18,9 +18,9 @@ async def get_all_json():
         crates.get_souvenirs_json(),
         skins.get_skins_json(),
     )
-    crates.cases = res[0]
-    crates.souvenirs = res[1]
-    skins.skins = res[2]
+    crates.cases = res[0].json()
+    crates.souvenirs = res[1].json()
+    skins.skins = res[2].json()
 
 asyncio.run(get_all_json())
 
@@ -28,6 +28,7 @@ crate_opening = on_command("open", priority=5)
 list_cases = on_command("cases", priority=5)
 list_souvenir = on_command("svs", priority=5)
 search_skin = on_command("s_skin", priority=5)
+open_until = on_command("openuntil", priority=5)
 
 
 @list_cases.handle()
@@ -50,7 +51,6 @@ async def handle_list_souvenir():
     for sv in svs_list[len(svs_list)//2:]:
         svs_list_str += f"{sv}\n"
     await list_souvenir.finish(f"{svs_list_str}")
-
 
 
 @crate_opening.handle()
@@ -89,6 +89,36 @@ async def handle_search_skin(args: Message = CommandArg()):
             await search_skin.send(MessageSegment.image(img_base64)+f"找到饰品{skin['name']}")
     else:
         await search_skin.finish("请输入皮肤名称")
+
+
+@open_until.handle()
+async def handle_open_until(event: MessageEvent, args: Message = CommandArg()):
+    name = args.extract_plain_text().strip()
+    get_rare = False
+    count = 0
+    if name:
+        crate = get_crate(name)
+        if crate:
+            if not crate["contains"]:
+                await crate_opening.finish("箱子里面是空的")
+            while not get_rare:
+                items = crates.open_crate_multiple(
+                    crate, 100
+                )
+                if count and count % 100 == 0:
+                    await crate_opening.send(f"已经开启{count}个{crate['name']}...")
+                for item in items:
+                    count += 1
+                    if item["rarity"] == "隐秘":
+                        rare_item = item["name"]
+                        get_rare = True
+                        break
+
+            await crate_opening.finish(f"共开启{count}个{crate['name']}，开出隐秘物品:{rare_item}")
+        else:
+            await crate_opening.finish("箱子不存在")
+    else:
+        await crate_opening.finish("请输入箱子名称")
 
 
 def extract_args(args: Message = CommandArg()):

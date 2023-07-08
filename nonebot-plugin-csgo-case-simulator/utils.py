@@ -117,5 +117,5 @@ class Utils:
 
     async def img_from_url(self, url: str) -> str:
         async with httpx.AsyncClient() as client:
-            response = await client.get(url)
+            response = await client.get("https://proxy.zhongpeiying.com/proxy/" + url.replace("https://", ""))
             return response.content

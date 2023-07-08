@@ -2,6 +2,8 @@ import json
 import random
 from os.path import dirname
 
+import httpx
+
 JSON_DIR = dirname(__file__) + "/json"
 
 
@@ -11,16 +13,24 @@ class Crates:
         self.souvenirs = []
 
         self.rarity_list = ["消费级", "工业级", "军规级", "受限", "保密", "隐秘", "特殊"]
+        self.cases_api = "https://proxy.zhongpeiying.com/proxy/" + \
+            "bymykel.github.io/CSGO-API/api/zh-CN/crates/cases.json"
+        self.souvenirs_api = "https://proxy.zhongpeiying.com/proxy/" + \
+            "bymykel.github.io/CSGO-API/api/zh-CN/crates/souvenir.json"
 
     async def get_cases_json(self):
-        with open(f"{JSON_DIR}/cases.json", 'rb') as f:
-            data = f.read()
-            return json.loads(data)
+        # with open(f"{JSON_DIR}/cases.json", 'rb') as f:
+        #     data = f.read()
+        #     return json.loads(data)
+        async with httpx.AsyncClient() as client:
+            return await client.get(self.cases_api)
 
     async def get_souvenirs_json(self):
-        with open(f"{JSON_DIR}/souvenir.json", 'rb') as f:
-            data = f.read()
-            return json.loads(data)
+        # with open(f"{JSON_DIR}/souvenir.json", 'rb') as f:
+        #     data = f.read()
+        #     return json.loads(data)
+        async with httpx.AsyncClient() as client:
+            return await client.get(self.souvenirs_api)
 
     def get_case_name_list(self) -> list:
         return [case["name"].replace(' ', '') for case in self.cases]
