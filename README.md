@@ -20,6 +20,7 @@ _✨ NoneBot的CSGO开箱模拟器 ✨_
 <img src="https://img.shields.io/badge/python-3.9+-blue.svg" alt="python">
 
 </div>
+
 ## 🤡 注意
 在腾讯对机器人有新的政策之前本仓库停止更新。
 ## 📖 介绍
