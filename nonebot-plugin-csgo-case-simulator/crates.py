@@ -13,10 +13,8 @@ class Crates:
         self.souvenirs = []
 
         self.rarity_list = ["消费级", "工业级", "军规级", "受限", "保密", "隐秘", "特殊"]
-        self.cases_api = "https://proxy.zhongpeiying.com/proxy/" + \
-            "bymykel.github.io/CSGO-API/api/zh-CN/crates/cases.json"
-        self.souvenirs_api = "https://proxy.zhongpeiying.com/proxy/" + \
-            "bymykel.github.io/CSGO-API/api/zh-CN/crates/souvenir.json"
+        self.cases_api = "https://bymykel.github.io/CSGO-API/api/zh-CN/crates/cases.json"
+        self.souvenirs_api = "https://bymykel.github.io/CSGO-API/api/zh-CN/crates/souvenir.json"
 
     async def get_cases_json(self):
         # with open(f"{JSON_DIR}/cases.json", 'rb') as f:

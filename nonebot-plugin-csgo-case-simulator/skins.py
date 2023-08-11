@@ -11,8 +11,7 @@ JSON_DIR = dirname(__file__) + "/json"
 class Skins:
     def __init__(self):
         self.skins = []
-        self.skins_api = "https://proxy.zhongpeiying.com/proxy/" + \
-            "bymykel.github.io/CSGO-API/api/zh-CN/skins.json"
+        self.skins_api = "https://bymykel.github.io/CSGO-API/api/zh-CN/skins.json"
 
     async def get_skins_json(self):
         async with httpx.AsyncClient() as client:
