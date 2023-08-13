@@ -75,7 +75,7 @@ async def handle_open_crate(event: MessageEvent, args: Message = CommandArg()):
             for item in items:
                 skin = skins.get_skins(item["name"])
                 opened_skins.append(skin)
-            image = await utils.merge_images(opened_skins)
+            image = await utils.merge_images(opened_skins, crate['name'], crate['image'], event.sender.nickname)
             await crate_opening.finish(MessageSegment.image(image))
         else:
             await crate_opening.finish("箱子不存在")
