@@ -8,7 +8,7 @@ from PIL import Image, ImageFont, ImageDraw, ImageFilter
 import httpx
 
 
-FONT_DIR = dirname(__file__) + "/font/font.ttf"
+FONT_DIR = dirname(__file__) + "/font/NotoSansSC-Bold.otf"
 
 
 class Utils:
@@ -119,3 +119,35 @@ class Utils:
         async with httpx.AsyncClient() as client:
             response = await client.get(url)
             return response.content
+
+    def generate_case_list_img(self, case_list: list):
+        ttf_path = FONT_DIR
+        font = ImageFont.truetype(ttf_path, 25)
+
+        # 计算每行的高度
+        line_height = font.getsize("A")[1] + 2
+
+        # 行数
+        rows = len(case_list) // 2 + 1
+        width = len(case_list[0]) * 100
+        height = (rows + 1) * line_height
+
+        # 设置每列的宽度
+        column_width = width // 2
+        image = Image.new("RGB", (width, height), "white")
+        draw = ImageDraw.Draw(image)
+
+        # 遍历列表并绘制文本
+        for i, item in enumerate(case_list):
+            # 计算文本所在列的坐标
+            if i % 2 == 0:
+                x = 40
+            else:
+                x = column_width + 10
+
+            # 计算文本所在行的坐标
+            y = (i // 2) * line_height + 15
+
+            # 绘制文本
+            draw.text((x, y), '•' + item, font=font, fill="#272829")
+        return self.img_from_PIL(image)

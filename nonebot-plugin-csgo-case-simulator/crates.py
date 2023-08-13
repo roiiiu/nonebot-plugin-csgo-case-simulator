@@ -103,7 +103,6 @@ class Crates:
                 result_list.append(result_list[i-1] / 5)
 
         result_list = [x / sum(result_list) for x in result_list]
-        print(result_list)
         contains_prob_list = []
         for item in crate["contains"]:
             contains_prob_list.append(

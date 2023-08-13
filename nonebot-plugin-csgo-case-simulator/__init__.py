@@ -24,16 +24,19 @@ async def get_all_json():
 
 asyncio.run(get_all_json())
 
-crate_opening = on_command("open", priority=5)
-list_cases = on_command("cases", priority=5)
-list_souvenir = on_command("svs", priority=5)
-search_skin = on_command("s_skin", priority=5)
+crate_opening = on_command("open", aliases={'csgo开箱'}, priority=5)
+list_cases = on_command("cases", aliases={'csgo武器箱列表'}, priority=5)
+list_souvenir = on_command("svs", aliases={'csgo纪念包列表'}, priority=5)
+search_skin = on_command("s_skin", aliases={'csgo皮肤搜索'}, priority=5)
 open_until = on_command("openuntil", priority=5)
 
 
 @list_cases.handle()
 async def handle_list_cases():
     cases_list = crates.get_case_name_list()
+    cases_list_img = utils.generate_case_list_img(cases_list)
+    await list_cases.finish(MessageSegment.image(cases_list_img))
+
     cases_list_str = ""
     for case in cases_list:
         cases_list_str += f"{case}\n"
@@ -43,6 +46,8 @@ async def handle_list_cases():
 @list_souvenir.handle()
 async def handle_list_souvenir():
     svs_list = crates.get_souvenir_name_list()
+    cases_list_img = utils.generate_case_list_img(svs_list)
+    await list_cases.finish(MessageSegment.image(cases_list_img))
     svs_list_str = ""
     for sv in svs_list[0:len(svs_list) // 2]:
         svs_list_str += f"{sv}\n"
@@ -134,6 +139,11 @@ def extract_args(args: Message = CommandArg()):
         return amount, crate_name
     else:
         return 1, None
+
+
+def get_result_statistics(user: str, times: int, amount: int):
+    return f"用户{user}开启{times}次{amount}个箱子" \
+
 
 
 def get_crate(name: str):
