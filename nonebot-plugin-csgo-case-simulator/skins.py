@@ -1,6 +1,8 @@
 import json
 import random
 from os.path import dirname
+from typing import List
+from .model import SelectedSkin, Skin
 
 import httpx
 
@@ -10,7 +12,7 @@ JSON_DIR = dirname(__file__) + "/json"
 
 class Skins:
     def __init__(self):
-        self.skins = []
+        self.skins: List[Skin] = []
         self.skins_api = "https://bymykel.github.io/CSGO-API/api/zh-CN/skins.json"
 
     async def get_skins_json(self):
@@ -20,23 +22,21 @@ class Skins:
         #     data = f.read()
         #     return json.loads(data)
 
-    def get_skins(self, name: str) -> dict:
+    def get_skins(self, name: str) -> SelectedSkin:
         for skin in self.skins:
-            if skin["name"] == name:
-                wear_rating = round(
-                    random.uniform(skin["min_float"], skin["max_float"]), 5
+            if skin.name == name:
+                return SelectedSkin(
+                    id=skin.id,
+                    name=skin.name,
+                    image=skin.image,
+                    rarity=skin.rarity,
+                    wear_rating=None if (skin.min_float is None or skin.max_float is None) else round(
+                        random.uniform(skin.min_float, skin.max_float), 5),
                 )
-                return {
-                    "id": skin["id"],
-                    "name": skin["name"],
-                    "image": skin["image"],
-                    "rarity": skin["rarity"],
-                    "wear_rating": wear_rating,
-                }
 
-    def search_skin(self, skin_name: str) -> dict:
+    def search_skin(self, skin_name: str) -> List[Skin]:
         found_skin_list = []
         for skin in self.skins:
-            if skin["pattern"].find(skin_name.lower()) != -1:
+            if skin.pattern and skin_name.lower() in skin.pattern:
                 found_skin_list.append(skin)
         return found_skin_list

@@ -4,8 +4,10 @@ from io import BytesIO
 import math
 import os
 from os.path import dirname
+from typing import List
 from PIL import Image, ImageFont, ImageDraw, ImageFilter
 import httpx
+from .model import SelectedSkin
 
 
 FONT_DIR = dirname(__file__) + "/font/NotoSansSC-Bold.otf"
@@ -50,13 +52,11 @@ class Utils:
             },
         }
 
-    async def merge_images(self, items: list, case_name: str, case_img: str, user_name: str):
-        ttf_path = FONT_DIR
-        font = ImageFont.truetype(ttf_path, 40)
+    async def merge_images(self, items: List[SelectedSkin], case_name: str, case_img: str, user_name: str):
         image_list = []
 
-        image_tasks = [self.download_image(item["image"]) for item in items]
-        image_list = await asyncio.gather(*image_tasks)
+        image_tasks = [self.download_image(item.image) for item in items]
+        image_list: List[Image.Image] = await asyncio.gather(*image_tasks)
 
         main_img = self.generate_main_img(image_list, items)
 
@@ -67,7 +67,7 @@ class Utils:
         main_img.paste(case_img, (128, 505), case_img)
 
         statistic_dict = {}
-        rare_sorted = sorted([item["rarity"]
+        rare_sorted = sorted([item.rarity
                              for item in items], key=self.rare_sorted_func)
         for i in range(len(rare_sorted)):
             statistic_dict[rare_sorted[i]] = rare_sorted.count(rare_sorted[i])
@@ -82,10 +82,10 @@ class Utils:
 
         return self.img_from_PIL(main_img)
 
-    def generate_main_img(self, skins: list, items: list):
+    def generate_main_img(self, skins: List[Image.Image], items: List[SelectedSkin]):
         for i in range(len(skins)):
             skins[i] = self.generate_item_card(
-                skins[i], items[i]["rarity"], items[i]["name"])
+                skins[i], items[i].rarity, items[i].name)
         main = Image.open(os.path.join(PATH, "main_template.png"))
         columns = 5
         rows = (len(skins) - 1) // columns + 1

@@ -1,16 +1,18 @@
 import json
 import random
 from os.path import dirname
+from typing import List, Optional
 
 import httpx
+from .model import Contains, Crate
 
 JSON_DIR = dirname(__file__) + "/json"
 
 
 class Crates:
     def __init__(self):
-        self.cases = []
-        self.souvenirs = []
+        self.cases: List[Crate] = []
+        self.souvenirs: List[Crate] = []
 
         self.rarity_list = ["消费级", "工业级", "军规级", "受限", "保密", "隐秘", "特殊"]
         self.cases_api = "https://bymykel.github.io/CSGO-API/api/zh-CN/crates/cases.json"
@@ -31,56 +33,54 @@ class Crates:
             return await client.get(self.souvenirs_api)
 
     def get_case_name_list(self) -> list:
-        return [case["name"].replace(' ', '') for case in self.cases]
+        return [case.name.replace(' ', '') for case in self.cases]
 
     def get_souvenir_name_list(self) -> list:
-        return [sv["name"].replace(' ', '') for sv in self.souvenirs]
+        return [sv.name.replace(' ', '') for sv in self.souvenirs]
 
     def get_random_case(self) -> dict:
         return random.choice(self.cases)
 
-    def get_case_by_name(self, case_name: str) -> dict:
+    def get_case_by_name(self, case_name: str) -> Crate:
         raw_name = case_name.replace("武器箱", "")
         for case in self.cases:
-            if case["name"].replace(" ", "").find(raw_name) != -1:
+            if raw_name in case.name.replace(" ", ""):
                 return case
         return None
 
-    def get_souvenir_by_name(self, sv_name: str) -> dict:
+    def get_souvenir_by_name(self, sv_name: str) -> Crate:
         raw_name = sv_name.replace("纪念包", "")
         for sv in self.souvenirs:
-            if sv["name"].replace(" ", "").find(raw_name) != -1:
+            if raw_name in sv.name.replace(" ", ""):
                 return sv
         return None
 
-    def open_case(self, case: dict, probability_list) -> dict:
-        if random.random() > probability_list[-1] or not case["contains_rare"]:
-            return random.choices(case["contains"], probability_list)[0]
+    def open_case(self, case: Crate, probability_list) -> Contains:
+        if random.random() > probability_list[-1] or not case.contains_rare:
+            return random.choices(case.contains, probability_list)[0]
         else:
-            return random.choice(case["contains_rare"])
+            return random.choice(case.contains_rare)
 
-    def open_souvenir(self, sv: dict, probability_list) -> dict:
-        return random.choices(sv["contains"], probability_list)[0]
+    def open_souvenir(self, sv: Crate, probability_list) -> Contains:
+        return random.choices(sv.contains, probability_list)[0]
 
-    def open_crate_multiple(self, crate: dict, open_crate_multiple: int) -> list:
-        items = []
-        if (crate["type"] == "Case"):
+    def open_crate_multiple(self, crate: Crate, amount: int) -> List[Contains]:
+        items: List[Contains] = []
+        if (crate.type == "Case"):
             contains_pob_list = self.calculate_prob_list(crate)
-            for i in range(open_crate_multiple):
+            for _ in range(amount):
                 items.append(self.open_case(crate, contains_pob_list))
-        elif (crate["type"] == "Souvenir"):
-            contains_pob_list = self.calculate_prob_list(crate)
-            for i in range(open_crate_multiple):
-                items.append(self.open_souvenir(crate, contains_pob_list))
         else:
-            return None
+            contains_pob_list = self.calculate_prob_list(crate)
+            for _ in range(amount):
+                items.append(self.open_souvenir(crate, contains_pob_list))
         return items
 
-    def calculate_prob_list(self, crate: dict):
+    def calculate_prob_list(self, crate: Crate):
         has_rarity = {key: False for key in self.rarity_list}
-        for item in crate["contains"]:
-            has_rarity[item["rarity"]] = True
-        if crate["type"] == "Case":
+        for item in crate.contains:
+            has_rarity[item.rarity] = True
+        if crate.type == "Case":
             has_rarity["特殊"] = True
 
         crate_rarity_list = [key for key, value in has_rarity.items() if value]
@@ -104,8 +104,8 @@ class Crates:
 
         result_list = [x / sum(result_list) for x in result_list]
         contains_prob_list = []
-        for item in crate["contains"]:
+        for item in crate.contains:
             contains_prob_list.append(
-                result_list[crate_rarity_list.index(item["rarity"])])
+                result_list[crate_rarity_list.index(item.rarity)])
 
         return contains_prob_list
