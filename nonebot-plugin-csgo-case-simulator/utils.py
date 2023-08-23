@@ -75,7 +75,7 @@ class Utils:
                                key=self.rare_sorted_func, reverse=True)
 
         top_three = {}
-        for i in range(len(sorted_counts)):
+        for i in range(len(sorted_counts) if len(sorted_counts) < 3 else 3):
             top_three[sorted_counts[i]] = statistic_dict[sorted_counts[i]]
 
         self.generate_statistic(main_img, top_three)
