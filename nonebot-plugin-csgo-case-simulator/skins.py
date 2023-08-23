@@ -16,7 +16,7 @@ class Skins:
         self.skins_api = "https://bymykel.github.io/CSGO-API/api/zh-CN/skins.json"
 
     async def get_skins_json(self):
-        async with httpx.AsyncClient() as client:
+        async with httpx.AsyncClient(verify=False) as client:
             return await client.get(self.skins_api)
         # with open(f"{JSON_DIR}/skins.json", 'rb') as f:
         #     data = f.read()

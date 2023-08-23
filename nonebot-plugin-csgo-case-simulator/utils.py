@@ -154,7 +154,7 @@ class Utils:
         return image
 
     async def download_image(self, url) -> Image.Image:
-        async with httpx.AsyncClient() as client:
+        async with httpx.AsyncClient(verify=False) as client:
             response = await client.get(url)
             img = Image.open(BytesIO(response.content))
             return img
@@ -165,7 +165,7 @@ class Utils:
         return buf.getvalue()
 
     async def img_from_url(self, url: str) -> str:
-        async with httpx.AsyncClient() as client:
+        async with httpx.AsyncClient(verify=False) as client:
             response = await client.get(url)
             return response.content
 

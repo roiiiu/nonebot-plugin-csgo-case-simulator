@@ -22,14 +22,14 @@ class Crates:
         # with open(f"{JSON_DIR}/cases.json", 'rb') as f:
         #     data = f.read()
         #     return json.loads(data)
-        async with httpx.AsyncClient() as client:
+        async with httpx.AsyncClient(verify=False) as client:
             return await client.get(self.cases_api)
 
     async def get_souvenirs_json(self):
         # with open(f"{JSON_DIR}/souvenir.json", 'rb') as f:
         #     data = f.read()
         #     return json.loads(data)
-        async with httpx.AsyncClient() as client:
+        async with httpx.AsyncClient(verify=False) as client:
             return await client.get(self.souvenirs_api)
 
     def get_case_name_list(self) -> list:
