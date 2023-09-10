@@ -4,7 +4,7 @@ from io import BytesIO
 import math
 import os
 from os.path import dirname
-from typing import List
+from typing import List, Union
 from PIL import Image, ImageFont, ImageDraw, ImageFilter
 import httpx
 from .model import SelectedSkin
@@ -20,23 +20,23 @@ class Utils:
         self.rarity_color = {
             "消费级": {
                 "bg": "#5D6884",
-                "stroke": "#303645"
+                "stroke": "#4C556D"
             },
             "工业级": {
                 "bg": "#3869E8",
-                "stroke": "#1D3983"
+                "stroke": "#2E5AC9"
             },
             "军规级": {
                 "bg": "#3B38E8",
-                "stroke": "#2927A4"
+                "stroke": "#2827A7"
             },
             "受限": {
                 "bg": "#9033D9",
-                "stroke": "#5D238A"
+                "stroke": "#6C26A7"
             },
             "保密": {
                 "bg": "#DE55EA",
-                "stroke": "#AF43B9"
+                "stroke": "#A842B3"
             },
             "隐秘": {
                 "bg": "#8D1F3B",
@@ -44,11 +44,11 @@ class Utils:
             },
             "违禁": {
                 "bg": "#C7B61F",
-                "stroke": "#9E9118"
+                "stroke": "#AD9F1E"
             },
             "非凡": {
                 "bg": "#C7B61F",
-                "stroke": "#9E9118"
+                "stroke": "#AD9F1E"
             },
         }
 
@@ -85,7 +85,7 @@ class Utils:
     def generate_main_img(self, skins: List[Image.Image], items: List[SelectedSkin]):
         for i in range(len(skins)):
             skins[i] = self.generate_item_card(
-                skins[i], items[i].rarity, items[i].name)
+                skins[i], items[i].rarity, items[i].name, items[i].wear)
         main = Image.open(os.path.join(PATH, "main_template.png"))
         columns = 5
         rows = (len(skins) - 1) // columns + 1
@@ -126,9 +126,10 @@ class Utils:
         text_width, text_height = info_font.getsize(case_name[:12])
         main_draw.text(
             ((430 - text_width) // 2, 645), case_name[:12], font=info_font, fill="white")
+
         return main_img
 
-    def generate_item_card(self, skin: Image.Image, rarity: str, name: str):
+    def generate_item_card(self, skin: Image.Image, rarity: str, name: str, wear: Union[str, None]):
         image = Image.new("RGBA", (500, 500), "#D4D2D5")
         image = self.generate_item_card_band(
             image, self.rarity_color[rarity]["bg"], self.rarity_color[rarity]["stroke"])
@@ -141,6 +142,9 @@ class Utils:
         font = ImageFont.truetype(FONT_DIR, 35)
         draw.text((20, 390), "\n".join(name.split(" | ")),
                   font=font, fill='white')
+        if (wear != None):
+            draw.text((480 - font.getsize(wear)
+                      [0], 435), wear, font=font, fill='white')
         image = image.resize((128, 128), Image.LANCZOS)
         return image
 

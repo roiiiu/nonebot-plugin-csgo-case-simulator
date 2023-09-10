@@ -27,7 +27,7 @@ _✨ NoneBot的CSGO开箱模拟器 ✨_
 * 武器箱
 * 纪念包
 * 多箱连开（最多20）
-* ~~和游戏内完全相同的出货概率~~
+* 和游戏内完全相同的出货概率
 
 ## 💿 安装
 
@@ -78,4 +78,4 @@ _✨ NoneBot的CSGO开箱模拟器 ✨_
 |        svs         | csgo纪念包列表 | 群员  |  否   | 群聊  | 查看所有纪念包 |
 |  s_skins [皮肤名]  |  csgo皮肤搜索  | 群员  |  否   | 群聊  |    搜索皮肤    |
 ### 效果图
-![效果图](./screenshot/screenshot3.png)
+![效果图](./screenshot/screenshot.png)

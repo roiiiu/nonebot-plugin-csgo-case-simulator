@@ -19,18 +19,59 @@ class Crate(BaseModel):
     image: str
 
 
+class Weapon(BaseModel):
+    id: str
+    name: Optional[str]
+
+
+class Category(BaseModel):
+    id: str
+    name: str
+
+
+class Pattern(BaseModel):
+    id: str
+    name: str
+
+
+class Rarity(BaseModel):
+    id: str
+    name: str
+
+
+class Wear(BaseModel):
+    id: str
+    name: str
+
+
+class Collections(BaseModel):
+    id: str
+    name: str
+    image: str
+
+
+class Crates(BaseModel):
+    id: str
+    name: str
+    image: str
+
+
 class Skin(BaseModel):
     id: str
     name: str
     description: Optional[str]
-    weapon: Optional[str]
-    category: str
-    pattern: Optional[str]
+    weapon: Optional[Weapon]
+    category: Category
+    pattern: Optional[Pattern]
     min_float: Optional[float]
     max_float: Optional[float]
-    rarity: str
+    rarity: Rarity
     stattrak: bool
+    souvenir: Optional[bool]
     paint_index: Optional[str]
+    wears: Optional[List[Wear]]
+    collection: Optional[List[Collections]]
+    crates: Optional[List[Crates]]
     image: str
 
 
@@ -39,4 +80,4 @@ class SelectedSkin(BaseModel):
     name: str
     image: str
     rarity: str
-    wear_rating: Optional[float]
+    wear: Optional[str]

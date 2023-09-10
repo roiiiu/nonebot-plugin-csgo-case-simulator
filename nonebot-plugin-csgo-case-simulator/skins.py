@@ -29,9 +29,8 @@ class Skins:
                     id=skin.id,
                     name=skin.name,
                     image=skin.image,
-                    rarity=skin.rarity,
-                    wear_rating=None if (skin.min_float is None or skin.max_float is None) else round(
-                        random.uniform(skin.min_float, skin.max_float), 5),
+                    rarity=skin.rarity.name,
+                    wear=random.choice(skin.wears).name,
                 )
 
     def search_skin(self, skin_name: str) -> List[Skin]:

@@ -106,22 +106,22 @@ async def handle_search_skin(args: Message = CommandArg()):
 #     if name:
 #         crate = get_crate(name)
 #         if crate:
-#             if not crate["contains"]:
+#             if not crate.contains:
 #                 await crate_opening.finish("箱子里面是空的")
 #             while not get_rare:
 #                 items = crates.open_crate_multiple(
-#                     crate, 100
+#                     crate, 200
 #                 )
-#                 if count and count % 100 == 0:
-#                     await crate_opening.send(f"已经开启{count}个{crate['name']}...")
+#                 if count and count % 200 == 0:
+#                     await crate_opening.send(f"已经开启{count}个{crate.name}...")
 #                 for item in items:
 #                     count += 1
-#                     if item["rarity"] == "隐秘":
-#                         rare_item = item["name"]
+#                     if "★" in item.name:
+#                         rare_item = item.name
 #                         get_rare = True
 #                         break
 
-#             await crate_opening.finish(f"共开启{count}个{crate['name']}，开出隐秘物品:{rare_item}")
+#             await crate_opening.finish(f"共开启{count}个{crate.name}，开出隐秘物品:{rare_item}")
 #         else:
 #             await crate_opening.finish("箱子不存在")
 #     else:
