@@ -159,7 +159,7 @@ class Utils:
 
     async def download_image(self, url) -> Image.Image:
         async with httpx.AsyncClient(verify=False) as client:
-            response = await client.get(url)
+            response = await client.get(url, timeout=10)
             img = Image.open(BytesIO(response.content))
             return img
 
@@ -170,7 +170,7 @@ class Utils:
 
     async def img_from_url(self, url: str) -> str:
         async with httpx.AsyncClient(verify=False) as client:
-            response = await client.get(url)
+            response = await client.get(url, timeout=10)
             return response.content
 
     def generate_case_list_img(self, case_list: list):

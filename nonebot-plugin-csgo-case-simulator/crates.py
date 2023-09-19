@@ -15,22 +15,26 @@ class Crates:
         self.souvenirs: List[Crate] = []
 
         self.rarity_list = ["消费级", "工业级", "军规级", "受限", "保密", "隐秘", "非凡", "违禁"]
-        self.cases_api = "https://bymykel.github.io/CSGO-API/api/zh-CN/crates/cases.json"
-        self.souvenirs_api = "https://bymykel.github.io/CSGO-API/api/zh-CN/crates/souvenir.json"
+        # self.cases_api = "https://bymykel.github.io/CSGO-API/api/zh-CN/crates/cases.json"
+        # self.souvenirs_api = "https://bymykel.github.io/CSGO-API/api/zh-CN/crates/souvenir.json"
+        self.cases: List[Crate] = [Crate(**item)
+                                   for item in self.get_cases_json()]
+        self.souvenirs: List[Crate] = [
+            Crate(**item) for item in self.get_souvenirs_json()]
 
-    async def get_cases_json(self):
-        # with open(f"{JSON_DIR}/cases.json", 'rb') as f:
-        #     data = f.read()
-        #     return json.loads(data)
-        async with httpx.AsyncClient(verify=False) as client:
-            return await client.get(self.cases_api)
+    def get_cases_json(self):
+        with open(f"{JSON_DIR}/cases.json", 'rb') as f:
+            data = f.read()
+            return json.loads(data)
+        # async with httpx.AsyncClient(verify=False) as client:
+        #     return await client.get(self.cases_api)
 
-    async def get_souvenirs_json(self):
-        # with open(f"{JSON_DIR}/souvenir.json", 'rb') as f:
-        #     data = f.read()
-        #     return json.loads(data)
-        async with httpx.AsyncClient(verify=False) as client:
-            return await client.get(self.souvenirs_api)
+    def get_souvenirs_json(self):
+        with open(f"{JSON_DIR}/souvenir.json", 'rb') as f:
+            data = f.read()
+            return json.loads(data)
+        # async with httpx.AsyncClient(verify=False) as client:
+        #     return await client.get(self.souvenirs_api)
 
     def get_case_name_list(self) -> list:
         return [case.name.replace(' ', '') for case in self.cases]

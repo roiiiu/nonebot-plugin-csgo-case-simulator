@@ -81,3 +81,12 @@ class SelectedSkin(BaseModel):
     image: str
     rarity: str
     wear: Optional[str]
+
+
+class UserLastTime(BaseModel):
+    id: str
+    last_time: float
+
+
+class Config(BaseModel):
+    csgo_cd: int = 0

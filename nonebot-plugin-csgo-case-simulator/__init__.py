@@ -1,30 +1,19 @@
-import asyncio
-import time
 from typing import List, Optional
-from nonebot import on_command
+from nonebot import get_driver, on_command
 from nonebot.params import CommandArg
 from nonebot.adapters.onebot.v11 import Message, MessageSegment, MessageEvent
 from .crates import Crates
 from .skins import Skins
 from .utils import Utils
-from .model import Crate, SelectedSkin, Skin
+from .model import Crate, SelectedSkin, Config
 
 crates = Crates()
 skins = Skins()
 utils = Utils()
 
-
-async def get_all_json():
-    res = await asyncio.gather(
-        crates.get_cases_json(),
-        crates.get_souvenirs_json(),
-        skins.get_skins_json(),
-    )
-    crates.cases = [Crate(**item) for item in res[0].json()]
-    crates.souvenirs = [Crate(**item) for item in res[1].json()]
-    skins.skins = [Skin(**item) for item in res[2].json()]
-
-asyncio.run(get_all_json())
+userLastTime: dict = {}
+config = Config.parse_obj(get_driver().config)
+cd_time = config.csgo_cd
 
 crate_opening = on_command("open", aliases={'csgo开箱'}, priority=5)
 list_cases = on_command("cases", aliases={'csgo武器箱列表'}, priority=5)
@@ -69,6 +58,16 @@ async def handle_open_crate(event: MessageEvent, args: Message = CommandArg()):
         if crate:
             if not crate.contains:
                 await crate_opening.finish("箱子里面是空的")
+
+            if cd_time > 0 and event.sender.user_id in userLastTime and event.time - userLastTime[event.sender.user_id] < cd_time:
+                leftTime = cd_time - \
+                    (event.time - userLastTime[event.sender.user_id])
+                await crate_opening.finish(
+                    MessageSegment.reply(event.message_id) +
+                    f"开箱太快了，请等待{leftTime}秒"
+                )
+
+            userLastTime[event.sender.user_id] = event.time
             img_base64 = await utils.img_from_url(crate.image)
             await crate_opening.send(MessageSegment.image(img_base64)+f"正在开启{amount}个{crate.name}...")
 
