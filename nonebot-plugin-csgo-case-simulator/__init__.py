@@ -12,8 +12,10 @@ skins = Skins()
 utils = Utils()
 
 userLastTime: dict = {}
+groupLastTime: dict = {}
 config = Config.parse_obj(get_driver().config)
-cd_time = config.csgo_cd
+user_cd = config.csgo_user_cd
+group_cd = config.csgo_group_cd
 
 crate_opening = on_command("open", aliases={'csgo开箱'}, priority=5)
 list_cases = on_command("cases", aliases={'csgo武器箱列表'}, priority=5)
@@ -59,15 +61,25 @@ async def handle_open_crate(event: MessageEvent, args: Message = CommandArg()):
             if not crate.contains:
                 await crate_opening.finish("箱子里面是空的")
 
-            if cd_time > 0 and event.sender.user_id in userLastTime and event.time - userLastTime[event.sender.user_id] < cd_time:
-                leftTime = cd_time - \
+            group_id = event.get_session_id()
+            if user_cd > 0 and event.sender.user_id in userLastTime and event.time - userLastTime[event.sender.user_id] < user_cd:
+                leftTime = user_cd - \
                     (event.time - userLastTime[event.sender.user_id])
                 await crate_opening.finish(
                     MessageSegment.reply(event.message_id) +
                     f"开箱太快了，请等待{leftTime}秒"
                 )
 
+            if group_cd > 0 and group_id in groupLastTime and event.time - groupLastTime[group_id] < group_cd:
+                leftTime = group_cd - \
+                    (event.time - groupLastTime[group_id])
+                await crate_opening.finish(
+                    MessageSegment.reply(event.message_id) +
+                    f"群开箱冷却中，请等待{leftTime}秒"
+                )
             userLastTime[event.sender.user_id] = event.time
+            groupLastTime[group_id] = event.time
+
             img_base64 = await utils.img_from_url(crate.image)
             await crate_opening.send(MessageSegment.image(img_base64)+f"正在开启{amount}个{crate.name}...")
 

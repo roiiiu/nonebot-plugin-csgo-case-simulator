@@ -83,10 +83,6 @@ class SelectedSkin(BaseModel):
     wear: Optional[str]
 
 
-class UserLastTime(BaseModel):
-    id: str
-    last_time: float
-
-
 class Config(BaseModel):
-    csgo_cd: int = 0
+    csgo_user_cd: int = 0
+    csgo_group_cd: int = 0
