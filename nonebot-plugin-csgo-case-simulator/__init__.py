@@ -21,7 +21,7 @@ crate_opening = on_command("open", aliases={'csgo开箱'}, priority=5)
 list_cases = on_command("cases", aliases={'csgo武器箱列表'}, priority=5)
 list_souvenir = on_command("svs", aliases={'csgo纪念包列表'}, priority=5)
 search_skin = on_command("s_skin", aliases={'csgo皮肤搜索'}, priority=5)
-# open_until = on_command("openuntil", priority=5)
+open_until = on_command("openuntil", priority=5)
 
 
 @list_cases.handle()
@@ -109,34 +109,34 @@ async def handle_search_skin(args: Message = CommandArg()):
         await search_skin.finish("请输入皮肤名称")
 
 
-# @open_until.handle()
-# async def handle_open_until(event: MessageEvent, args: Message = CommandArg()):
-#     name = args.extract_plain_text().strip()
-#     get_rare = False
-#     count = 0
-#     if name:
-#         crate = get_crate(name)
-#         if crate:
-#             if not crate.contains:
-#                 await crate_opening.finish("箱子里面是空的")
-#             while not get_rare:
-#                 items = crates.open_crate_multiple(
-#                     crate, 200
-#                 )
-#                 if count and count % 200 == 0:
-#                     await crate_opening.send(f"已经开启{count}个{crate.name}...")
-#                 for item in items:
-#                     count += 1
-#                     if "★" in item.name:
-#                         rare_item = item.name
-#                         get_rare = True
-#                         break
+@open_until.handle()
+async def handle_open_until(event: MessageEvent, args: Message = CommandArg()):
+    name = args.extract_plain_text().strip()
+    get_rare = False
+    count = 0
+    if name:
+        crate = get_crate(name)
+        if crate:
+            if not crate.contains:
+                await crate_opening.finish("箱子里面是空的")
+            while not get_rare:
+                items = crates.open_crate_multiple(
+                    crate, 200
+                )
+                if count and count % 200 == 0:
+                    await crate_opening.send(f"已经开启{count}个{crate.name}...")
+                for item in items:
+                    count += 1
+                    if "★" in item.name:
+                        rare_item = item.name
+                        get_rare = True
+                        break
 
-#             await crate_opening.finish(f"共开启{count}个{crate.name}，开出隐秘物品:{rare_item}")
-#         else:
-#             await crate_opening.finish("箱子不存在")
-#     else:
-#         await crate_opening.finish("请输入箱子名称")
+            await crate_opening.finish(f"共开启{count}个{crate.name}，开出隐秘物品:{rare_item}")
+        else:
+            await crate_opening.finish("箱子不存在")
+    else:
+        await crate_opening.finish("请输入箱子名称")
 
 
 def extract_args(args: Message = CommandArg()):
