@@ -38,6 +38,6 @@ class Skins:
     def search_skin(self, skin_name: str) -> List[Skin]:
         found_skin_list = []
         for skin in self.skins:
-            if skin.pattern and skin_name.lower() in skin.pattern:
+            if skin.pattern and skin_name.lower() in skin.pattern.name:
                 found_skin_list.append(skin)
         return found_skin_list
