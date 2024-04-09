@@ -143,4 +143,5 @@ accounts/
 .DS_Store
 .env.dev
 .env.prod
+poetry.lock
 # End of https://www.toptal.com/developers/gitignore/api/python

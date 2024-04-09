@@ -1,18 +1,25 @@
-from typing import List, Optional
+from typing import List, Literal, Optional
 from pydantic import BaseModel
+
+
+class Rarity(BaseModel):
+    id: str
+    name: str
+    # color: str
 
 
 class Contains(BaseModel):
     id: str
     name: str
-    rarity: str
+    rarity: Rarity
+    image: str
 
 
 class Crate(BaseModel):
     id: str
     name: str
     description: Optional[str]
-    type: str
+    type: Literal["Case", "Souvenir"]
     first_sale_date: Optional[str]
     contains: List[Contains]
     contains_rare: List[Contains]
@@ -25,16 +32,11 @@ class Weapon(BaseModel):
 
 
 class Category(BaseModel):
-    id: str
-    name: str
+    id: Optional[str]
+    name: Optional[str]
 
 
 class Pattern(BaseModel):
-    id: str
-    name: str
-
-
-class Rarity(BaseModel):
     id: str
     name: str
 
