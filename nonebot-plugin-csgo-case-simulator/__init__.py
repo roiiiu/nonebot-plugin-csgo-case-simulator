@@ -1,3 +1,7 @@
+from nonebot import require
+
+require("nonebot_plugin_alconna")
+
 from typing import List, Optional
 from nonebot import get_driver, on_command
 from nonebot.params import CommandArg
