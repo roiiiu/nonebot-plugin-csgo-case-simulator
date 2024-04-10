@@ -1,6 +1,7 @@
 from nonebot import require
+from nonebot.plugin import PluginMetadata
 
-require("nonebot_plugin_alconna")
+require("nonebot_plugin_alconna")  # noqa
 
 from typing import List, Optional
 from nonebot import get_driver, on_command
@@ -11,6 +12,16 @@ from .utils import Utils
 from .model import Crate, SelectedSkin, Config
 from nonebot_plugin_alconna.uniseg import Image, UniMessage
 from nonebot.adapters import Message, Event
+
+
+__plugin_meta__ = PluginMetadata(
+    name="CSGO开箱模拟器",
+    description="nonebot的CS2/CSGO开箱模拟器",
+    usage="输入 /open 开箱",
+    type="application",
+    config=Config,
+    supported_adapters=None
+)
 
 crates = Crates()
 skins = Skins()
