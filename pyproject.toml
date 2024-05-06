@@ -1,6 +1,6 @@
 [tool.poetry]
 name = "nonebot-plugin-csgo-case-simulator"
-version = "1.1.3"
+version = "1.1.4"
 description = "a nonebot based cs2/csgo case simulator"
 authors = ["roiiiu <lyt2980999208@gmail.com>"]
 license = "MIT"
@@ -10,7 +10,7 @@ packages = [{ include = "nonebot-plugin-csgo-case-simulator" }]
 [tool.poetry.dependencies]
 python = "^3.9"
 nonebot2 = "^2.0.0rc4"
-Pillow = "^9.5.0"
+Pillow = "9.5.0"
 httpx = "^0.23.0"
 pydantic = "^1.10.0"
 nonebot-plugin-alconna = "^0.42"

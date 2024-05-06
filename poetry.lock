@@ -24,17 +24,17 @@ trio = ["trio (>=0.23)"]
 
 [[package]]
 name = "arclet-alconna"
-version = "1.8.7"
+version = "1.8.11"
 description = "A High-performance, Generality, Humane Command Line Arguments Parser Library."
 optional = false
 python-versions = ">=3.8"
 files = [
-    {file = "arclet_alconna-1.8.7-py3-none-any.whl", hash = "sha256:4f4feb9d8a9f6195057d37dfeeef45f6753b395361903b40defbd19477083756"},
-    {file = "arclet_alconna-1.8.7.tar.gz", hash = "sha256:98486ae09907dcbb35b8516f29772111acf333e785e055a21183be53acf433f4"},
+    {file = "arclet_alconna-1.8.11-py3-none-any.whl", hash = "sha256:8a0c188400214abe2b72b2e6f4f23ed8d3021270654c15bc46cad62b725b7a44"},
+    {file = "arclet_alconna-1.8.11.tar.gz", hash = "sha256:3fed5e946709d63b9d7ee7cddf32b145e1f931b8ea9d0b8174cac753d965e9c8"},
 ]
 
 [package.dependencies]
-nepattern = ">=0.6.4,<1.0.0"
+nepattern = ">=0.7.0,<1.0.0"
 tarina = ">=0.4.4"
 typing-extensions = ">=4.5.0"
 
@@ -43,18 +43,18 @@ full = ["arclet-alconna-tools (>=0.2.0)"]
 
 [[package]]
 name = "arclet-alconna-tools"
-version = "0.7.2"
+version = "0.7.3"
 description = "Builtin Tools for Alconna"
 optional = false
 python-versions = ">=3.8"
 files = [
-    {file = "arclet_alconna_tools-0.7.2-py3-none-any.whl", hash = "sha256:69739aab07c039537cd72b4ab6d37aff896cd794031a8ff8157e5f85e842ed9b"},
-    {file = "arclet_alconna_tools-0.7.2.tar.gz", hash = "sha256:98a6aad6284efd8af34b10cd35667bd5885f530327b9ac9ea2944bf6325d0d6f"},
+    {file = "arclet_alconna_tools-0.7.3-py3-none-any.whl", hash = "sha256:e7d70025900d348ced62c824a5d7569c140e64714903f8498ed4b8e5f0b2c8fe"},
+    {file = "arclet_alconna_tools-0.7.3.tar.gz", hash = "sha256:f150640182983902292ab1d50ca16a811ffd76bb46eac53fa2cd0479890da337"},
 ]
 
 [package.dependencies]
-arclet-alconna = ">=1.8.7"
-nepattern = ">=0.6.5,<1.0.0"
+arclet-alconna = ">=1.8.10"
+nepattern = ">=0.7.0,<1.0.0"
 
 [[package]]
 name = "certifi"
@@ -80,13 +80,13 @@ files = [
 
 [[package]]
 name = "exceptiongroup"
-version = "1.2.0"
+version = "1.2.1"
 description = "Backport of PEP 654 (exception groups)"
 optional = false
 python-versions = ">=3.7"
 files = [
-    {file = "exceptiongroup-1.2.0-py3-none-any.whl", hash = "sha256:4bfd3996ac73b41e9b9628b04e079f193850720ea5945fc96a08633c66912f14"},
-    {file = "exceptiongroup-1.2.0.tar.gz", hash = "sha256:91f5c769735f051a4290d52edd0858999b57e5876e9f85937691bd4c9fa3ed68"},
+    {file = "exceptiongroup-1.2.1-py3-none-any.whl", hash = "sha256:5258b9ed329c5bbdd31a309f53cbfb0b155341807f6ff7606a1e801a891b29ad"},
+    {file = "exceptiongroup-1.2.1.tar.gz", hash = "sha256:a4785e48b045528f5bfe627b6ad554ff32def154f42372786903b7abcfe1aa16"},
 ]
 
 [package.extras]
@@ -149,13 +149,13 @@ socks = ["socksio (==1.*)"]
 
 [[package]]
 name = "idna"
-version = "3.6"
+version = "3.7"
 description = "Internationalized Domain Names in Applications (IDNA)"
 optional = false
 python-versions = ">=3.5"
 files = [
-    {file = "idna-3.6-py3-none-any.whl", hash = "sha256:c05567e9c24a6b9faaa835c4821bad0590fbb9d5779e7caa6e1cc4978e7eb24f"},
-    {file = "idna-3.6.tar.gz", hash = "sha256:9ecdbbd083b06798ae1e86adcbfe8ab1479cf864e4ee30fe4e46a003d12491ca"},
+    {file = "idna-3.7-py3-none-any.whl", hash = "sha256:82fee1fc78add43492d3a1898bfa6d8a904cc97d8427f683ed8e798d07761aa0"},
+    {file = "idna-3.7.tar.gz", hash = "sha256:028ff3aadf0609c1fd278d8ea3089299412a7a8b9bd005dd08b9f8285bcb5cfc"},
 ]
 
 [[package]]
@@ -277,13 +277,13 @@ files = [
 
 [[package]]
 name = "nepattern"
-version = "0.6.5"
+version = "0.7.2"
 description = "a complex pattern, support typing"
 optional = false
 python-versions = ">=3.8"
 files = [
-    {file = "nepattern-0.6.5-py3-none-any.whl", hash = "sha256:6c06dc6b2e06b9b2d98c4dee024c63e10d1301dc90091548b94cf76c7dfbd8fb"},
-    {file = "nepattern-0.6.5.tar.gz", hash = "sha256:dc91ad72cfa907b270ac1e99b6589cddb576d1ae52948b9f9367c86a58ec0ea8"},
+    {file = "nepattern-0.7.2-py3-none-any.whl", hash = "sha256:75406623a4a533628a6fb1996a7cc79d7b535a268e2a8bf4b405197175baecca"},
+    {file = "nepattern-0.7.2.tar.gz", hash = "sha256:7869e7998d870c920611b7a25649fb451c57bf2de450fb5d2e87408ff2917885"},
 ]
 
 [package.dependencies]
@@ -292,30 +292,30 @@ typing-extensions = ">=4.5.0"
 
 [[package]]
 name = "nonebot-plugin-alconna"
-version = "0.42.3"
+version = "0.42.5"
 description = "Alconna Adapter for Nonebot"
 optional = false
-python-versions = ">=3.8"
+python-versions = ">=3.9"
 files = [
-    {file = "nonebot_plugin_alconna-0.42.3-py3-none-any.whl", hash = "sha256:dfb8c22293e7f78e584830c593904153731f58ffd3f77021c745967add73ab47"},
-    {file = "nonebot_plugin_alconna-0.42.3.tar.gz", hash = "sha256:2304121c2ad2996a741cbe45840cc24f7d6e2cc53694aa661eaae515639c8d99"},
+    {file = "nonebot_plugin_alconna-0.42.5-py3-none-any.whl", hash = "sha256:3d1e035f2e17b0a53bfc7c1cb7c56407f41fcd88c288db89343f0094d1f2532b"},
+    {file = "nonebot_plugin_alconna-0.42.5.tar.gz", hash = "sha256:ae820275e77496cc3356c469d2fac3cf5dcbf93271539d2150ce9b88a34627ee"},
 ]
 
 [package.dependencies]
-arclet-alconna = ">=1.8.7"
-arclet-alconna-tools = ">=0.7.2"
-nepattern = ">=0.6.5"
+arclet-alconna = ">=1.8.10"
+arclet-alconna-tools = ">=0.7.3"
+nepattern = ">=0.7.0,<0.8.0"
 nonebot2 = ">=2.2.1"
 
 [[package]]
 name = "nonebot2"
-version = "2.2.1"
+version = "2.3.0"
 description = "An asynchronous python bot framework."
 optional = false
-python-versions = ">=3.8,<4.0"
+python-versions = "<4.0,>=3.9"
 files = [
-    {file = "nonebot2-2.2.1-py3-none-any.whl", hash = "sha256:88f2bb456bf90922925bbe489a9effe3b09300f3aa50bfa75ee50d8a83d7330f"},
-    {file = "nonebot2-2.2.1.tar.gz", hash = "sha256:fe57692300571b00724999238545d8d894523460e6835a11b326a2e1cdf98fc4"},
+    {file = "nonebot2-2.3.0-py3-none-any.whl", hash = "sha256:ecde620a96197189f9f9b719ab8493b5115e5973cba0bd07ed3d737ce7418462"},
+    {file = "nonebot2-2.3.0.tar.gz", hash = "sha256:0e4ebdb0eaab96008619aa4890171ea6e7e7af25eb9d1a4e753e58544c46681e"},
 ]
 
 [package.dependencies]
@@ -720,4 +720,4 @@ multidict = ">=4.0"
 [metadata]
 lock-version = "2.0"
 python-versions = "^3.9"
-content-hash = "f0cae346c721ee311e3baf92acf74de254d14788014ff0787818b4492e4c3ca7"
+content-hash = "f7b8f4f531bd570eb068a37c843757569fe184252179f2080ede1f6633a4c8df"
