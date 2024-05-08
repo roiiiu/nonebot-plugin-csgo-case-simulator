@@ -1,6 +1,6 @@
 [tool.poetry]
 name = "nonebot-plugin-csgo-case-simulator"
-version = "1.1.4"
+version = "1.1.5"
 description = "a nonebot based cs2/csgo case simulator"
 authors = ["roiiiu <lyt2980999208@gmail.com>"]
 license = "MIT"
