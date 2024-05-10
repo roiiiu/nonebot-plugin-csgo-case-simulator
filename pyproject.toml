@@ -17,6 +17,7 @@ nonebot-plugin-alconna = "^0.42"
 
 
 [tool.nonebot]
+plugins = ["nonebot-plugin-csgo-case-simulator"]
 plugins = ["nonebot_plugin_alconna"]
 [build-system]
 requires = ["poetry-core"]
