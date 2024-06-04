@@ -48,7 +48,7 @@ class Crates:
     def get_random_case(self) -> dict:
         return random.choice(self.cases)
 
-    def get_case_by_name(self, case_name: str) -> Crate:
+    def get_case_by_name(self, case_name: str) -> Crate | None:
         raw_name = case_name.replace("武器箱", "")
         for case in self.cases:
             if raw_name in case.name.replace(" ", ""):

@@ -5,7 +5,7 @@ from pydantic import BaseModel
 class Rarity(BaseModel):
     id: str
     name: str
-    # color: str
+    color: str
 
 
 class Contains(BaseModel):
@@ -80,8 +80,10 @@ class Skin(BaseModel):
 class SelectedSkin(BaseModel):
     id: str
     name: str
+    pattern: str
     image: str
     rarity: str
+    color: str
     wear: Optional[str]
 
 

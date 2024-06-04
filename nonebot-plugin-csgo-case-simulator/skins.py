@@ -14,13 +14,12 @@ class Skins:
     def __init__(self):
         self.skins: List[Skin] = []
         # self.skins_api = "https://bymykel.github.io/CSGO-API/api/zh-CN/skins.json"
-        self.skins: List[Skin] = [Skin(**item)
-                                  for item in self.get_skins_json()]
+        self.skins: List[Skin] = [Skin(**item) for item in self.get_skins_json()]
 
     def get_skins_json(self):
         # async with httpx.AsyncClient(verify=False) as client:
         #     return await client.get(self.skins_api)
-        with open(f"{JSON_DIR}/skins.json", 'rb') as f:
+        with open(f"{JSON_DIR}/skins.json", "rb") as f:
             data = f.read()
             return json.loads(data)
 
@@ -29,9 +28,11 @@ class Skins:
             if skin.name == name:
                 return SelectedSkin(
                     id=skin.id,
-                    name=skin.name,
+                    name=skin.weapon.name,
+                    pattern=skin.pattern.name,
                     image=skin.image,
                     rarity=skin.rarity.name,
+                    color=skin.rarity.color,
                     wear=random.choice(skin.wears).name,
                 )
 
